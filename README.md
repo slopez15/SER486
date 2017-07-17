@@ -1,8 +1,10 @@
 # SER486Project
 Will hold raspberry pi class project and any files I will use for practice with the raspberry pi.
+
 Party/DJ Radio was something I have been wanting to create. This repo is a hastily created prototype of one.
 
 Details:
+
 Project was developed in clooud9.
 Time-span: 3 weeks.
 Code quality: Almost no regard for code quality.
@@ -22,7 +24,9 @@ If you were to write a website that is an executable, you would need to print th
 
 External Resources Used:
 Library to program raspberryPi gpio pins with C: http://wiringpi.com/
+
 Library to decode url encrypted information from the user: http://libccgi.sourceforge.net/
+
 This is a site that I should have referred to as I found out about CGI, but here it is to know more about CGI, how to set it up on an Apache web server, and how to get started on CGI programs: https://httpd.apache.org/docs/2.4/howto/cgi.html
 
 
