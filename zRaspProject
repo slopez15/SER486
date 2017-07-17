@@ -1,0 +1,39 @@
+#! /bin/sh
+# /etc/init.d/zRaspProject
+
+### BEGIN INIT INFO
+# Provides:          main
+# Required-Start:    $remote_fs $syslog $network
+# Required-Stop:     $remote_fs $syslog $network
+# Should-Start:      $portmap
+# Should-Stop:       $portmap
+# X-Start-Before:    nis
+# X-Stop-After:      nis
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# X-Interactive:     true
+# Short-Description: Radio station with buttons and html form feed, maybe live player. My embedded raspberry project.
+# Description:       Radio Station using 2 buttons and live html page with option to submit youtube url or music file to add to playlist. Also maybe a live player page. 2+ interrupt buttons designed to control playlist physically.
+### END INIT INFO
+
+
+export HOME
+case "$1" in
+ start)
+  echo "Starting radioStation program in C by Saul Lopez"
+  sudo /home/slopez15/ser486/assign2/interrupt
+  ;;
+ stop)
+  echo "Stopping radioStation program in C by Saul Lopez"
+  PID=`ps auxwww | grep /home/slopez15/ser486/assign2/interrupt | head -1 | awk '{print $2}'`
+  sudo kill -9 $PID
+  # PID=`ps auxwww | grep /home/slopez15/ser486/assign2/interrupt | head -1 | awk '{print $2}'`
+  # sudo kill -9 $PID
+  # Should add command to set all gpio to zero (saftey)
+  ;;
+ *)
+  echo "Usage: /etc/init.d/zRaspProject {start|stop}"
+  exit 1
+  ;;
+esac
+exit 0

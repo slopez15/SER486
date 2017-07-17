@@ -1,0 +1,16 @@
+#! /bin/bash
+
+CHECKPID=`cat /home/pi/Desktop/cgi-bin/main/bin/PID | head -1` &&                       echo 'checkpid done' && echo $CHECKPID && 
+ACTIVEPID_VLC=`ps auxwww | grep vlc | head -1 | awk '{print $2}'` &&                    echo 'ACTIVEPID_VLC done' && echo $ACTIVEPID_VLC && 
+ACTIVEPID_MPG=`ps auxwww | grep mpg | head -1 | awk '{print $2}'` &&                    echo 'ACTIVEPID_MPG done' && echo $ACTIVEPID_MPG && 
+if [[ $CHECKPID == $ACTIVEPID_VLC || $CHECKPID == $ACTIVEPID_MPG ]]; then export ISPLAYING=1; else export ISPLAYING=0; fi && echo 'comparison done' && echo $ISPLAYING && 
+sudo echo $ISPLAYING > /home/pi/Desktop/cgi-bin/main/bin/ISPLAYING &&                   echo 'inserting in ISPLAYING file done' && cat /home/pi/Desktop/cgi-bin/main/bin/ISPLAYING
+
+
+# // system ("/bin/bash -c \" "
+# //         "CHECKPID=`cat /home/pi/Desktop/cgi-bin/main/bin/PID | head -1` "
+# //         "ACTIVEPID=`ps auxwww | grep mpg | head -1 | awk '{print $2}'` "
+# //         "if [ $CHECKPID == $ACTIVEPID ]; then export ISPLAYING=1; else export ISPLAYING=0; fi && "
+# //         "sudo echo $ISPLAYING > /home/pi/Desktop/cgi-bin/main/bin/ISPLAYING && ");
+# //bash -c not work in setting, and without it can't if statement.
+

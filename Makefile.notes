@@ -1,0 +1,119 @@
+# Predefined Make Variables
+	# CC Cross-Compiler, defaults to cc.
+	# CFLAGS Passed to $(CC)
+	# LD Loader, defaults to ld
+	# LDFLAGS Passed to $(LD)
+	# $@ Full name of the current target/ouput.
+	# $< The name of the first prerequisite/input[0]. 
+	# $^ The names of all the prerequisites, with spaces between them/input[].
+	# $? Files for current dependencies which are out-of-date, with spaces between them/input[selective].
+	# $* The stem which implicit rule matches. If target is input dir/a.foo.b and target pattern is a.%.b then the stem is dir/foo
+# Self note: 
+	# see Unix Porgramming Tools by Parlante, Zelenski and many others on how to create make files.
+	# Automatic-Variables (CC): https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
+	# Implicit-Variables ($@): https://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html
+	# Tip: * is a wildcard and % is a pattern. They are different.
+
+# Should: gcc file.c -o file; recursively.
+# Goal of makefile is to create program files from each .c file. (assume .c files are all main)
+
+# the commands and flags
+CC = gcc
+CFLAGS = -Wall
+LINK = $(IDIR) $(LDIR) $(LLIB)
+
+#shorthand; (gcc -Wall) ... [files] -o program
+COMPILE = $(CC) $(CFLAGS) $(LINK)
+
+# Files i/o
+HDRS = $(wildcard *.h)
+SRCS = $(wildcard *.c)
+OBJS = $(SRCS:.c=.o)
+PROGS = $(SRCS:.c=.exe)
+
+IDIR = -I/usr/local/include
+LDIR = -L/usr/local/lib
+LLIB = -lwiringPi -lwiringPiDev -lpthread -lm -lcrypt -lrt
+
+#TARGET= program
+
+
+
+# MY RULES
+# 1st rule / default target
+default: all
+
+# Rule: compile all .c files in current dir into respective program name into bin folder
+all: $(PROGS)
+
+# all target executes each one in list. so... f1 f2 f3 targets
+# .c:
+# 	gcc -Wall $< -o $@
+
+%: %.c
+	$(COMPILE) $< -o $@
+
+# $(PROGS): %: %.c
+#	$(COMPILE) $< -o $@
+
+#all 3 above do the same. finds a pattern and checks if you meet prerequisites
+
+
+clean:
+	rm -rf bin/ obj/ lib/ thirdParty/ $(OBJS) $(PROGS)
+
+
+
+
+
+
+
+# Rule: compile provided .c file into .exe. pattern takes any .c file provided and compile it into a program and place into bin/ folder
+	#can add %.h as pre-req as pairs. OR add includes to where all made .h files are. Place it above this rule for precedence.
+# %.exe: %.c
+# 	$(COMPILE) $(input) -o bin/$(output)
+
+
+# Rule: all .c files depend on respective .h files	
+#%.c: %.h
+
+# Rule: run make in each subdir.
+#SUBDIRS = $(shell find ./ -type d)
+#$(SUBDIRS): 
+#	cd $@ && make
+
+
+
+
+# ideal folder structure
+# ./
+# ./src/
+# ./makefile
+
+# make creates
+# ./bin/
+# ./obj/
+# ./lib/
+
+
+
+# style 1: folder groups
+# obj: create all .o for all .c files
+# bin: create certain .exe from clumps of .o files
+# lib: create certain .lib from clumps of .o files
+
+#style 2: creation
+# prepare: folder structure, no files
+# build: create all files like obj, bin, and lib files
+# execute: execute main program
+
+#style 3: specific
+# object: %.o:
+# program:
+# lib: 
+
+
+
+# Tests
+# $(input) / $(output) does not work in place of $< / $@
+# each command opens a process at makefile location and execute, each line not depend on prior. If you want one line to depend on another use &&

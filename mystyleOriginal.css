@@ -1,0 +1,12 @@
+
+html {
+    background-color: AliceBlue;
+}
+
+p {
+    color: purple;
+    font-weight: bold;
+    font-family: sans-serif;
+
+    /*background-color: black;*/
+}
